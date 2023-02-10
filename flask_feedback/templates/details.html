@@ -1,0 +1,47 @@
+{% extends 'base.html'  %}
+
+
+{% block content %}
+
+<h1>{{user.first_name}}'s Details Page</h1>
+<br>
+
+
+<h5> Give More Feed back <a href="/feedbacks/{{user.id}}">Create Feedback!</a></h5>
+<br>
+
+<br>
+<a href="/users/delete/{{user.id}}">Delete User</a>
+
+<div>
+    Username: {{user.username}}
+<br>    
+    Name: {{user.first_name}} {{user.last_name}}
+<br>
+    Email Address: {{user.email}}
+<br>
+    {% if user.feedback %}
+    Feedbacks: 
+    {% for f in user.feedback %}
+    
+    <p><b>{{f.title}}</b></p>
+    <p>{{f.content}}</p>
+    
+    {% if session['user_id'] == f.user_id %}
+                    
+                <form style="display:inline;" action="/feedbacks/delete/{{f.id}}"
+                    method="POST">
+                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></button>
+                </form>
+    {% endif %}
+    <br>
+    <br>
+    <a href="/feedbacks/edit/{{f.id}}">Edit Feedback</a>
+    <p>___________________________________________</p>
+    {% endfor %}
+    {% endif %}
+</div>
+
+
+
+{% endblock %}
